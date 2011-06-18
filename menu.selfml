@@ -1,0 +1,11 @@
+(menu command.preview
+    command.preview-in-browser
+    command.convert-document-to-html
+    (submenu Generate command.create-html-document command.create-latex-document command.create-xml-document command.create-s5-document)
+    ---
+    command.validate
+    ---
+    command.extend-title
+    ---
+    (submenu Insert snippet.section-1 snippet.section-2 snippet.section-3 --- snippet.image snippet.link)
+    (submenu Format command.bold command.italic command.typewriter))

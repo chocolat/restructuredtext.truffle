@@ -1,0 +1,9 @@
+(name link)
+
+(trigger
+    (tab link))
+
+(only-in text.restructuredtext)
+
+(snippet [
+`%{1="Title"}<%{2="http://link"}>`_])

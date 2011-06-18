@@ -1,0 +1,17 @@
+(trigger
+    (key [[ctrl][shift]V]))
+
+(name [Validate Syntax])
+
+(only-in text.restructuredtext)
+
+(input nothing)
+
+(output html)
+
+(save file)
+
+(script [TRST=${TM_RST2HTML:=rst2html.py}
+# TRST = "/System/Library/Frameworks/Python.framework/Versions/2.3/bin/rst2html.py"
+# Send the current file through rst2html.py
+"$TRST" "$TM_FILEPATH" 1>/dev/null|pre])

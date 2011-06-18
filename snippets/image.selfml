@@ -1,0 +1,9 @@
+(name image)
+
+(trigger
+    (tab image))
+
+(only-in text.restructuredtext)
+
+(snippet [.. image:: %{1="path"}
+%{0}])

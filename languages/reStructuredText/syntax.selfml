@@ -1,0 +1,167 @@
+(root text.restructuredtext
+    (zone
+        (inner-identifier meta.paragraph.restructuredtext)
+        (start
+            (regex [^([ \t]*)(?=\S)]))
+        (end
+            (regex [^(?!\1(?=\S))]))
+        (subzones
+            (include @inline))))
+
+(collection inline
+    (zone
+        (start
+            (regex [^([ \t]*)((\.\.)\sraw(::)) html]
+                (3 punctuation.definition.directive.restructuredtext)
+                (4 punctuation.separator.key-value.restructuredtext)
+                (2 meta.directive.restructuredtext)))
+        (end
+            (regex [^(?!\1[ \t])]
+                (3 punctuation.definition.directive.restructuredtext)
+                (4 punctuation.separator.key-value.restructuredtext)
+                (2 meta.directive.restructuredtext)))
+        (subzones
+            (include text.html.basic)))
+    (zone meta.other.directive.restructuredtext
+        (match
+            (regex [(\.\.)\s[A-z][A-z0-9-_]+(::)\s*$]
+                (1 punctuation.definition.directive.restructuredtext)
+                (2 punctuation.separator.key-value.restructuredtext))))
+    (zone meta.raw.block.restructuredtext
+        (start
+            (regex [^([ \t]*).*?((::))]
+                (3 punctuation.definition.raw.restructuredtext)
+                (2 markup.raw.restructuredtext)))
+        (end
+            (regex [^(?=\1[^\s]+)]
+                (3 punctuation.definition.raw.restructuredtext)
+                (2 markup.raw.restructuredtext)))
+        (subzones
+            (zone markup.raw.restructuredtext
+                (match
+                    (regex .+)))))
+    (zone meta.startraw.restructuredtext
+        (match ::))
+    (zone markup.bold.restructuredtext
+        (match
+            (regex [(\*\*)[^*]+(\*\*)]
+                (1 punctuation.definition.italic.restructuredtext)
+                (2 punctuation.definition.italic.restructuredtext))))
+    (zone markup.italic.restructuredtext
+        (match
+            (regex [(\*)\w[^*]+\w(\*)]
+                (1 punctuation.definition.italic.restructuredtext)
+                (2 punctuation.definition.italic.restructuredtext))))
+    (zone meta.link.reference.def.restructuredtext
+        (match
+            (regex [(\.\.)\s+(_)([\w\s]+)(:)\s+(.*)]
+                (3 string.other.link.title.restructuredtext)
+                (4 punctuation.separator.key-value.restructuredtext)
+                (5 markup.underline.link.restructuredtext)
+                (1 punctuation.definition.link.restructuredtext)
+                (2 punctuation.definition.string.restructuredtext))))
+    (zone markup.underline.substitution.restructuredtext
+        (match
+            (regex [(\|)[^|]+(\|_{0,2})]
+                (1 punctuation.definition.substitution.restructuredtext))))
+    (zone meta.link.reference
+        (match
+            (regex [\b(\w+)(_)\b]
+                (1 string.other.link.title.restructuredtext)
+                (2 punctuation.definition.link.restructuredtext))))
+    (zone meta.link.reference
+        (match
+            (regex [(`)([\w\s]+)(`_)]
+                (3 punctuation.definition.link.restructuredtext)
+                (1 punctuation.definition.link.restructuredtext)
+                (2 string.other.link.title.restructuredtext))))
+    (zone meta.link.inline.restructuredtext
+        (match
+            (regex [(`)([\w\s]+)\s+(<)(.*?)(>)(`_)]
+                (3 punctuation.definition.location.restructuredtext)
+                (4 markup.underline.link.restructuredtext)
+                (5 punctuation.definition.location.restructuredtext)
+                (1 punctuation.definition.link.restructuredtext)
+                (6 punctuation.definition.link.restructuredtext)
+                (2 string.other.link.title.restructuredtext))))
+    (zone meta.link.footnote.def.restructuredtext
+        (match
+            (regex `^(\.\.)\s+((\[)(((#?)[^]]*?)|\*)(\]))\s+(.*)`
+                (7 punctuation.definition.constant.restructuredtext)
+                (3 punctuation.definition.constant.restructuredtext)
+                (8 string.other.footnote.restructuredtext)
+                (1 punctuation.definition.link.restructuredtext)
+                (6 punctuation.definition.constant.restructuredtext)
+                (2 constant.other.footnote.link.restructuredtext))))
+    (zone meta.link.footnote.numeric.restructuredtext
+        (match
+            (regex [((\[)[0-9]+(\]))(_)]
+                (3 punctuation.definition.constant.restructuredtext)
+                (4 punctuation.definition.constant.restructuredtext)
+                (1 constant.other.footnote.link)
+                (2 punctuation.definition.constant.restructuredtext))))
+    (zone meta.link.footnote.auto.restructuredtext
+        (match
+            (regex [((\[#)[A-z0-9_]*(\]))(_)]
+                (3 punctuation.definition.constant.restructuredtext)
+                (4 punctuation.definition.constant.restructuredtext)
+                (1 constant.other.footnote.link)
+                (2 punctuation.definition.constant.restructuredtext))))
+    (zone meta.link.footnote.symbol.auto.restructuredtext
+        (match
+            (regex [((\[)\*(\]))(_)]
+                (3 punctuation.definition.constant.restructuredtext)
+                (4 punctuation.definition.constant.restructuredtext)
+                (1 constant.other.footnote.link.restructuredtext)
+                (2 punctuation.definition.constant.restructuredtext))))
+    (zone meta.link.citation.def.restructuredtext
+        (match
+            (regex [^(\.\.)\s+((\[)[A-z][A-z0-9]*(\]))(_)\s+(.*)]
+                (3 punctuation.definition.constant.restructuredtext)
+                (4 punctuation.definition.constant.restructuredtext)
+                (5 punctuation.definition.constant.restructuredtext)
+                (1 punctuation.definition.link.restructuredtext)
+                (6 string.other.citation.restructuredtext)
+                (2 constant.other.citation.link.restructuredtext))))
+    (zone meta.link.citation.restructuredtext
+        (match
+            (regex [((\[)[A-z][A-z0-9_-]*(\]))(_)]
+                (3 punctuation.definition.constant.restructuredtext)
+                (4 punctuation.definition.constant.restructuredtext)
+                (1 constant.other.citation.link.restructuredtext)
+                (2 punctuation.definition.constant.restructuredtext))))
+    (zone markup.raw.restructuredtext
+        (start
+            (regex [``]
+                (0 punctuation.definition.raw.restructuredtext)))
+        (end
+            (regex [``]
+                (0 punctuation.definition.raw.restructuredtext))))
+    (zone markup.other.command.restructuredtext
+        (match
+            (regex [(`)[^`]+(`)(?!_)]
+                (1 punctuation.definition.intepreted.restructuredtext)
+                (2 punctuation.definition.intepreted.restructuredtext))))
+    (zone entity.name.tag.restructuredtext
+        (match
+            (regex [(:)[A-z][A-z0-9  =\s\t_]*(:)]
+                (1 punctuation.definition.field.restructuredtext)
+                (2 punctuation.definition.field.restructuredtext))))
+    (zone markup.other.table.restructuredtext
+        (match
+            (regex [\+-[+-]+]
+                (0 punctuation.definition.table.restructuredtext))))
+    (zone markup.other.table.restructuredtext
+        (match
+            (regex [\+=[+=]+]
+                (0 punctuation.definition.table.restructuredtext))))
+    (zone markup.heading.restructuredtext
+        (match
+            (regex [(^(=|-|~|`|#|"|\^|\+|\*){3,}$){1,1}?]
+                (1 punctuation.definition.heading.restructuredtext))))
+    (zone comment.line.double-dot.restructuredtext
+        (start
+            (regex [^(\.\.)]
+                (1 punctuation.definition.comment.restructuredtext)))
+        (end
+            (regex $\n?))))

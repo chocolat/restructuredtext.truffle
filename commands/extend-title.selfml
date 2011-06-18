@@ -1,0 +1,15 @@
+(trigger
+    (key [[ctrl][shift]T]))
+
+(name [Extend Title])
+
+(only-in [meta.paragraph.restructuredtext ])
+
+(input selection scope)
+
+(output snippet)
+
+(save nothing)
+
+(script [TPY=${TM_PYTHON:-pythonw}
+"$TPY" "$TM_BUNDLE_SUPPORT/extend_title.py"])

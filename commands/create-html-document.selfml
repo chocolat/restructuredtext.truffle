@@ -1,0 +1,19 @@
+(trigger
+    (key [[cmd]R]))
+
+(name [Create HTML Document])
+
+(only-in text.restructuredtext)
+
+(input selection)
+
+(output new-document)
+
+(save nothing)
+
+(script [TRST=${TM_RST2HTML:=rst2html.py}
+
+require_cmd "$TRST" "You can either set the <tt>TM_RST2HTML</tt> variable to the full path of your docutils (docutils.sourceforge.net) installation (e.g. <tt>/Library/Frameworks/Python.framework/Versions/2.4/bin/rst2html.py</tt> or set the <tt>PATH</tt> variable to include the path of the docutils converters."
+
+# Send the current file through rst2html.py
+$TRST "$TM_FILEPATH"])

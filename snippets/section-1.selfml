@@ -1,0 +1,10 @@
+(name [section 1])
+
+(trigger
+    (tab sec))
+
+(only-in text.restructuredtext)
+
+(snippet [%{1="subsection name"}
+%{1/(.)|\s/(?1:=:=)/g}
+%{0}])

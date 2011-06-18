@@ -1,0 +1,47 @@
+(trigger
+    (key [[ctrl][alt][cmd]P]))
+
+(name Preview)
+
+(only-in text.restructuredtext)
+
+(input document)
+
+(output html)
+
+(save file)
+
+(script [TRST=${TM_RST2HTML:=rst2html.py}
+require_cmd "$TRST" "You can either set the <tt>TM_RST2HTML</tt> variable to the full path of your docutils (docutils.sourceforge.net) installation (e.g. <tt>/Library/Frameworks/Python.framework/Versions/2.4/bin/rst2html.py</tt> or set the <tt>PATH</tt> variable to include the path of the docutils converters."
+
+
+if [[ -f "$TM_DIRECTORY/default.css" ]]
+	then stylesheet="$TM_DIRECTORY/default.css"
+elif [[ -f "$TM_PROJECT_DIRECTORY/default.css" ]]
+	then stylesheet="$TM_PROJECT_DIRECTORY/default.css"
+else
+	css=`mktemp -t /tmp`
+	echo 'body {	
+		background-color: #eee;
+	}
+	.document {
+		background: white;
+		font-family: Georgia, serif;
+		font-size: 13px;
+		border: 1px #888 solid;
+		padding: 0 1em;
+	}' > $css
+	stylesheet=$css
+	tmpCreated="yes"
+fi
+
+if [[ -n $stylesheet ]]
+	then flags="--embed-stylesheet --stylesheet=$stylesheet"
+	else flags=""
+fi
+
+$TRST $flags "$TM_FILEPATH"
+
+if [[ -n $css ]]
+	then rm $css
+fi])

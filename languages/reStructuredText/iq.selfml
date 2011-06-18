@@ -1,0 +1,32 @@
+(detector
+    (extension rst)
+    (extension rest))
+
+(shell-variables
+    (TM_COMMENT_START [.. ]))
+
+(comment.line [.. ])
+
+(pair “
+    ”
+    (smart-typing))
+
+(pair `[`
+    `]`
+    (smart-typing))
+
+(pair [(]
+    [)]
+    (smart-typing))
+
+(pair [`]
+    [`]
+    (smart-typing))
+
+(pair "
+    "
+    (smart-typing))
+
+(pair [{]
+    [}]
+    (smart-typing))
