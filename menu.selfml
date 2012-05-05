@@ -5,7 +5,4 @@
     ---
     command.validate
     ---
-    command.extend-title
-    ---
-    (submenu Insert snippet.section-1 snippet.section-2 snippet.section-3 --- snippet.image snippet.link)
-    (submenu Format command.bold command.italic command.typewriter))
+    (submenu Insert snippet.section-1 snippet.section-2 snippet.section-3 --- snippet.image snippet.link))
